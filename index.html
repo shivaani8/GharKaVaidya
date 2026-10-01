@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ghar Ka Vaidya (Your Home Healer) – Ayurvedic Home Remedies</title>
+<style>
+:root{--bg:#f6efe2;--card:#fffaf0;--ink:#3b2f24;--mut:#7a6a58;--g:#5f7a4b;--g2:#e3ead6;--t:#b5651d;--t2:#f3dcc4;--line:#e2d3bb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241d16;--card:#2f261d;--ink:#f1e6d2;--mut:#bba98f;--g:#a3c18a;--g2:#38442e;--t:#e0a063;--t2:#4a3524;--line:#473a2c}}
+:root[data-theme="dark"]{--bg:#241d16;--card:#2f261d;--ink:#f1e6d2;--mut:#bba98f;--g:#a3c18a;--g2:#38442e;--t:#e0a063;--t2:#4a3524;--line:#473a2c}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Georgia,"Times New Roman",serif}
+.w{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.9rem;margin:.2em 0 .1em;color:var(--g)}h2{font-size:1.2rem;margin:0 0 .5em}
+.sub{color:var(--mut);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+label{display:block;font-size:.85rem;color:var(--mut);margin:10px 0 4px;font-family:system-ui,sans-serif}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}@media(max-width:520px){.row{grid-template-columns:1fr}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:8px 13px;border-radius:999px;cursor:pointer;font:.9rem system-ui,sans-serif}
+.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
+button.b{background:var(--t);color:#fff;border:0;padding:12px 20px;border-radius:12px;font:600 1rem system-ui,sans-serif;cursor:pointer;margin-top:14px}
+button.s{background:var(--g2);color:var(--ink);border:1px solid var(--line);padding:9px 14px;border-radius:10px;font:.9rem system-ui,sans-serif;cursor:pointer;margin:4px 6px 0 0}
+.r{border-left:5px solid var(--g);background:var(--card);border-radius:12px;padding:14px 16px;margin:12px 0;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.r.mudra{border-left-color:var(--t)}.r.acu{border-left-color:#8a5a7a}
+.tag{display:inline-block;font:.72rem system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;padding:2px 9px;border-radius:99px;background:var(--g2);margin-bottom:4px}
+.mudra .tag{background:var(--t2)}.acu .tag{background:#ecd9e6;color:#4b2a40}
+.r h3{margin:2px 0 4px;font-size:1.05rem}.r p{margin:0;color:var(--ink)}
+.note{font:.85rem system-ui,sans-serif;color:var(--mut);background:var(--t2);padding:10px 12px;border-radius:10px;margin:10px 0}
+.hide{display:none}.msg{font:.85rem system-ui,sans-serif;color:var(--g);min-height:1.2em}
+</style></head><body><div class="w">
+<h1>🌿 Ghar Ka Vaidya <span style="font-size:.55em;color:var(--mut);font-weight:normal">(Your Home Healer)</span></h1>
+<p class="sub">Ayurvedic &amp; Indian household remedies, mudras and acupressure for everyday wellness. English names are shown in brackets.</p>
+
+<div class="card" id="form">
+<h2>Tell us about yourself</h2>
+<div class="row">
+<div><label for="nm">Name</label><input id="nm" placeholder="Your name"></div>
+<div><label for="ag">Age</label><input id="ag" type="number" min="1" max="110" placeholder="e.g. 34"></div>
+<div><label for="gn">Gender</label><select id="gn"><option value="">Select</option><option>Female</option><option>Male</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
+</div>
+<label>What is troubling you?</label>
+<div class="chips" id="chips"></div>
+<label for="ds">Describe it in your own words</label>
+<textarea id="ds" rows="3" placeholder="e.g. bloating after meals, worse at night, for two weeks…"></textarea>
+<button class="b" id="go">Show me remedies</button>
+<div class="msg" id="err"></div>
+</div>
+
+<div id="out" class="hide">
+<div class="card"><h2 id="hi"></h2><div id="note"></div><div id="top"></div>
+<button class="s" id="more">Explore more options ▾</button><div id="rest" class="hide"></div></div>
+<div class="card"><h2>Share or save</h2>
+<button class="s" id="cp">🔗 Copy link</button><button class="s hide" id="sh">📤 Share</button><button class="s hide" id="dl">⬇️ Download my remedies</button>
+<div class="msg" id="m2"></div></div>
+</div>
+
+<div class="note">⚠️ These are traditional, supportive practices — not medical advice. See a doctor for severe, sudden or lasting symptoms (e.g. severe headache with fever/vision change, heavy bleeding, blood in stool, breathlessness, joint swelling with fever). Avoid herbs and acupressure on certain points during pregnancy; check with your practitioner. Never give honey to infants under 1 year.</div>
+</div>
+<script>
+const D={
+"Gut health":["gut bloating microbiome ibs constipation acidity",
+["h","Homemade curd (yogurt) + roasted jeera (cumin)","Have a small bowl of fresh curd with ½ tsp roasted cumin powder and a pinch of black salt after lunch. Supports friendly gut bacteria.","curd probiotic bloating gut"],
+["h","Chaas (spiced buttermilk)","Blend curd (yogurt) with water, hing (asafoetida), curry leaves, ginger and rock salt. Sip at midday – cooling and soothing for the gut lining.","acidity heat burning gut"],
+["h","Triphala (three-fruit Ayurvedic blend) at night","½ tsp triphala powder in warm water at bedtime gently cleanses and regulates the bowels.","constipation irregular bowel"],
+["m","Apan Vayu Mudra","Index finger folds to the base of thumb; thumb touches middle and ring fingertips. Hold 15 minutes twice a day to ease gas and bowel movement.","gas bloating constipation"],
+["a","ST-36 (Zusanli)","Four finger-widths below the kneecap, one finger outside the shin bone. Press firmly in small circles for 1–2 minutes each leg.","gut weak digestion energy"],
+["h","Soaked methi (fenugreek) seeds","Soak 1 tsp fenugreek seeds overnight; chew or drink the water in the morning to calm gut inflammation.","inflammation ibs acidity"]],
+"Period cramps":["period cramps menstrual pain pms",
+["h","Ajwain (carom seeds)–ginger warm tea","Boil ½ tsp ajwain (carom seeds) and a slice of ginger in a cup of water for 5 minutes; sip warm with a little jaggery.","cramp pain spasm"],
+["h","Warm sesame-oil massage","Warm til (sesame) oil, massage the lower belly clockwise, then apply a hot compress for 10 minutes.","cramp pain lower abdomen"],
+["h","Fennel (saunf) water","Steep 1 tsp saunf (fennel seeds) in hot water 10 minutes. Drink 2–3 times a day from just before your period.","bloating cramp irregular"],
+["m","Apana Mudra","Tips of the middle and ring fingers touch the thumb tip. Hold 15–20 minutes; supports downward energy and detox.","cramp pain flow"],
+["a","SP-6 (Sanyinjiao)","Four finger-widths above the inner ankle bone, behind the shin. Press 1–2 minutes each leg. Avoid during pregnancy.","cramp pain period"],
+["a","LI-4 (Hegu)","Fleshy web between thumb and index finger. Press firmly 1 minute each hand. Avoid during pregnancy.","pain headache cramp"]],
+"Hair thinning":["hair thinning fall loss dandruff scalp",
+["h","Warm bhringraj (false daisy)–coconut oil massage","Massage scalp for 10 minutes, leave 1 hour or overnight, then wash. Do twice a week.","hair fall scalp thinning"],
+["h","Amla (Indian gooseberry) + curry-leaf routine","Eat 1 fresh amla (Indian gooseberry), or ½ tsp powder, daily; boil curry leaves in coconut oil for a hair tonic.","hair graying thinning iron"],
+["h","Methi (fenugreek)–curd (yogurt) hair mask","Grind soaked fenugreek seeds with curd (yogurt); apply 30 minutes before washing weekly.","dandruff dry hair itchy"],
+["m","Prana Mudra","Tips of little and ring fingers touch the thumb tip. Hold 10–15 minutes daily to boost vitality and circulation.","hair energy thinning tired"],
+["a","Scalp point GV-20 + nail rub","Press the crown of the head 1 minute, then rub fingernails of both hands together 5 minutes (Balayam yoga).","hair scalp growth"],
+["h","Soaked almonds & sesame","5 soaked almonds and 1 tsp black sesame daily for nourishing fats and minerals.","nutrition hair thinning weak"]],
+"Digestive issues":["digestion indigestion acidity gas heaviness nausea",
+["h","Jeera (cumin)–ajwain (carom)–saunf (fennel) water","Boil 1 tsp each in 2 cups water till halved; sip warm after meals.","gas indigestion heavy bloating"],
+["h","Ginger–lemon before meals","A slice of ginger with lemon and rock salt 15 minutes before eating wakes up digestive fire (agni).","appetite slow heavy"],
+["h","Cooling coriander–mishri (rock sugar) water","Soak 1 tsp coriander seeds and mishri (rock sugar) overnight; drink for acidity or burning.","acidity burning reflux"],
+["m","Pran + Vayu Mudra","Vayu Mudra (index finger pressed at thumb base) for 15 min; ease gas and stomach heaviness.","gas heaviness bloating"],
+["a","CV-12 (Zhongwan)","Midpoint between navel and breastbone. Gentle clockwise pressure for 1 minute.","nausea indigestion stomach"],
+["a","PC-6 (Neiguan)","Three finger-widths above the inner wrist crease, between the tendons. Press 1–2 minutes for nausea.","nausea vomiting motion"]],
+"Joint aches":["joint aches arthritis stiffness knee pain",
+["h","Haldi doodh (turmeric milk)","Warm milk with ½ tsp turmeric, a pinch of black pepper and ghee (clarified butter) at night.","inflammation stiffness pain"],
+["h","Warm mahanarayan (herbal Ayurvedic oil) or sesame oil massage","Massage sore joints with warm oil, then a hot water compress for 10 minutes.","knee stiffness cold weather"],
+["h","Soaked methi (fenugreek) + dry ginger (sonth)","1 tsp methi (fenugreek) seeds soaked overnight, plus ½ tsp sonth (dry ginger powder) in warm water.","swelling inflammation morning"],
+["m","Vayu Mudra","Index finger folded to the base of the thumb with light pressure. Hold 15 minutes, twice daily.","stiffness vata wind pain"],
+["a","GB-34 (Yanglingquan)","Just below the outer knee, in the dip in front of the fibula head. Press 1 minute each leg.","knee joint hip pain"],
+["a","LI-11 (Quchi)","Outer end of the elbow crease when bent. Press 1 minute for elbow, wrist and shoulder aches.","elbow wrist shoulder pain"]],
+"Cough & cold":["cough cold sore throat congestion fever phlegm",
+["h","Tulsi (holy basil)–ginger–pepper kadha (herbal decoction)","Simmer 8 tulsi (holy basil) leaves, ginger, 3 peppercorns and a little jaggery in 2 cups water until halved. Sip warm.","cold cough throat"],
+["h","Honey–haldi (turmeric) paste","½ tsp honey with a pinch of turmeric, taken slowly. Not for children under 1 year.","dry cough sore throat"],
+["h","Steam with ajwain (carom seeds)","Inhale steam with ajwain (carom seeds) or eucalyptus, covered with a towel, for 5 minutes to loosen congestion.","blocked nose congestion phlegm"],
+["m","Surya (Sun) Mudra","Ring finger folds to the thumb base, pressed by the thumb. Warms the body; hold 10 minutes (not in high heat/fever).","cold chill phlegm"],
+["a","LI-20 (Yingxiang)","Either side of the nostrils. Press gently 1 minute to ease a blocked nose.","blocked nose sinus"],
+["a","LU-7 (Lieque)","Above the wrist crease on the thumb side. Press 1 minute each arm for cough and throat.","cough throat"]],
+"Headaches":["headache migraine tension head temple sinus",
+["h","Ginger–tulsi (holy basil) tea","Warm ginger and tulsi (holy basil) tea for tension or cold-related headaches.","tension cold sinus"],
+["h","Peppermint or sandalwood (chandan) paste","Apply sandalwood (chandan) paste or diluted peppermint oil on the temples for 10 minutes. Cooling for heat headaches.","heat temple throbbing migraine"],
+["h","Warm sesame oil on scalp + feet","Gently oil the scalp and soles before bed; calming for stress headaches and poor sleep.","stress sleep tension"],
+["m","Gyan Mudra","Index fingertip touches thumb tip, other fingers extended. Hold 15 minutes with slow breathing for calm focus.","stress tension focus"],
+["a","LI-4 (Hegu)","Web between thumb and index finger. Press firmly 1 minute each hand (avoid in pregnancy).","headache pain"],
+["a","GB-20 + Taiyang","Hollows at the base of the skull and the temples. Massage in small circles for 1–2 minutes.","neck tension temple migraine"]]
+};
+const T={h:["Home remedy",""],m:["Mudra","mudra"],a:["Acupressure","acu"]};
+const $=i=>document.getElementById(i);let sel="",cur=null;
+const chips=$("chips");
+Object.keys(D).forEach(k=>{const c=document.createElement("button");c.type="button";c.className="chip";c.textContent=k;c.onclick=()=>{sel=sel===k?"":k;[...chips.children].forEach(x=>x.classList.toggle("on",x.textContent===sel))};chips.appendChild(c)});
+function detect(txt){let best="",n=0;for(const k in D){const w=D[k][0].split(" ");let s=0;w.forEach(x=>{if(txt.includes(x))s++});if(s>n){n=s;best=k}}return best}
+function card(r){const d=document.createElement("div");d.className="r "+T[r[0]][1];
+d.innerHTML='<span class="tag"></span><h3></h3><p></p>';d.children[0].textContent=T[r[0]][0];d.children[1].textContent=r[1];d.children[2].textContent=r[2];return d}
+$("go").onclick=()=>{
+const nm=$("nm").value.trim(),ag=+$("ag").value,gn=$("gn").value,ds=$("ds").value.toLowerCase();
+let k=sel||detect(ds);
+if(!k){$("err").textContent="Please pick a concern or describe it so we can suggest remedies.";return}
+$("err").textContent="";
+let items=D[k].slice(1).map((r,i)=>{let s=0;r[3].split(" ").forEach(w=>{if(w&&ds.includes(w))s+=2});if(ds&&r[1].toLowerCase().split(" ").some(w=>w.length>4&&ds.includes(w)))s++;return{r,s,i}});
+items.sort((a,b)=>b.s-a.s||a.i-b.i);
+// ensure variety: top 3 include at least one non-home remedy
+let top=items.slice(0,3);if(!top.some(x=>x.r[0]!=="h")){const alt=items.find(x=>x.r[0]!=="h");top[2]=alt}
+const rest=items.filter(x=>!top.includes(x));
+$("hi").textContent=(nm?nm+", here":"Here")+" are your top 3 for "+k.toLowerCase();
+const n=$("note");n.innerHTML="";
+const add=t=>{const d=document.createElement("div");d.className="note";d.textContent=t;n.appendChild(d)};
+if(ag&&ag<12)add("For children, please check with a paediatrician first; use only mild options like steam, warm water, and gentle massage.");
+if(ag&&ag>=60)add("Go gently with new herbs and pressure, especially if you take regular medicines.");
+if(k==="Period cramps"&&gn==="Male")add("This topic is usually relevant for people who menstruate; showing the remedies anyway.");
+$("top").innerHTML="";top.forEach(x=>$("top").appendChild(card(x.r)));
+$("rest").innerHTML="";rest.forEach(x=>$("rest").appendChild(card(x.r)));
+$("rest").classList.add("hide");$("more").classList.remove("hide");$("more").textContent="Explore more options ▾";
+cur={nm,ag,gn,k,top:top.map(x=>x.r),rest:rest.map(x=>x.r)};
+$("out").classList.remove("hide");$("out").scrollIntoView({behavior:"smooth"})};
+$("more").onclick=()=>{const r=$("rest");const h=r.classList.toggle("hide");$("more").textContent=h?"Explore more options ▾":"Show fewer ▴"};
+async function copy(t){try{await navigator.clipboard.writeText(t);return true}catch(e){try{const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();return ok}catch(e2){return false}}}
+$("cp").onclick=async()=>{$("m2").textContent=(await copy(location.href))?"Link copied ✓":"Couldn't copy – please copy the address from your browser."};
+if(navigator.share){$("sh").classList.remove("hide");$("sh").onclick=()=>navigator.share({title:document.title,url:location.href}).catch(()=>{})}
+function txt(){if(!cur)return"";const f=a=>a.map((r,i)=>(i+1)+". ["+T[r[0]][0]+"] "+r[1]+"\n   "+r[2]).join("\n");
+return"Ghar Ka Vaidya – Remedies for "+cur.k+"\n"+(cur.nm?"For: "+cur.nm+(cur.ag?", "+cur.ag:"")+"\n":"")+"\nTOP 3\n"+f(cur.top)+"\n\nMORE OPTIONS\n"+f(cur.rest)+"\n\nTraditional supportive practices, not medical advice. See a doctor for severe or persistent symptoms."}
+(async()=>{try{const d=await claude.use("downloads");if(d){$("dl").classList.remove("hide");$("dl").onclick=async()=>{try{await d.save({filename:"my-remedies.txt",data:txt()})}catch(e){if(e&&e.code!=="declined")$("m2").textContent="Download unavailable here – use Copy instead."}}}}catch(e){}})();
+</script></body></html>
