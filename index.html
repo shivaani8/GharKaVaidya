@@ -27,6 +27,7 @@ button.s{background:var(--g2);color:var(--ink);border:1px solid var(--line);padd
 .r h3{margin:2px 0 4px;font-size:1.05rem}.r p{margin:0;color:var(--ink)}
 .note{font:.85rem system-ui,sans-serif;color:var(--mut);background:var(--t2);padding:10px 12px;border-radius:10px;margin:10px 0}
 .hide{display:none}.msg{font:.85rem system-ui,sans-serif;color:var(--g);min-height:1.2em}
+.f{font:.85rem system-ui,sans-serif;color:var(--mut);margin-top:6px!important}.f b{color:var(--ink)}
 </style></head><body><div class="w">
 <h1>🌿 Ghar Ka Vaidya <span style="font-size:.55em;color:var(--mut);font-weight:normal">(Your Home Healer)</span></h1>
 <p class="sub">Ayurvedic &amp; Indian household remedies, mudras and acupressure for everyday wellness. English names are shown in brackets.</p>
@@ -53,6 +54,11 @@ button.s{background:var(--g2);color:var(--ink);border:1px solid var(--line);padd
 <button class="s" id="cp">🔗 Copy link</button><button class="s hide" id="sh">📤 Share</button><button class="s hide" id="dl">⬇️ Download my remedies</button>
 <div class="msg" id="m2"></div></div>
 </div>
+
+<div class="card"><h2>🔍 Symptom guide</h2>
+<p class="sub">Search a symptom to see which nutrient shortfalls are commonly linked to it, and Indian foods that supply them.</p>
+<input id="sq" placeholder="e.g. tingling, hair fall, tired, cramps"><div id="sl"></div>
+<div class="note">Many symptoms have several causes. A simple blood test (CBC, ferritin, B12, vitamin D, TSH) can confirm a deficiency. Please ask a doctor before starting supplements.</div></div>
 
 <div class="note">⚠️ These are traditional, supportive practices — not medical advice. See a doctor for severe, sudden or lasting symptoms (e.g. severe headache with fever/vision change, heavy bleeding, blood in stool, breathlessness, joint swelling with fever). Avoid herbs and acupressure on certain points during pregnancy; check with your practitioner. Never give honey to infants under 1 year.</div>
 </div>
@@ -106,7 +112,22 @@ const D={
 ["h","Warm sesame oil on scalp + feet","Gently oil the scalp and soles before bed; calming for stress headaches and poor sleep.","stress sleep tension"],
 ["m","Gyan Mudra","Index fingertip touches thumb tip, other fingers extended. Hold 15 minutes with slow breathing for calm focus.","stress tension focus"],
 ["a","LI-4 (Hegu)","Web between thumb and index finger. Press firmly 1 minute each hand (avoid in pregnancy).","headache pain"],
-["a","GB-20 + Taiyang","Hollows at the base of the skull and the temples. Massage in small circles for 1–2 minutes.","neck tension temple migraine"]]
+["a","GB-20 + Taiyang","Hollows at the base of the skull and the temples. Massage in small circles for 1–2 minutes.","neck tension temple migraine"]],
+"Sleep & stress":["sleep insomnia stress anxiety restless worry night",
+["h","Warm nutmeg (jaiphal) milk","A tiny pinch of jaiphal (nutmeg) in warm milk 30 minutes before bed. Use only a pinch.","sleep insomnia night restless"],
+["h","Warm sesame-oil foot massage (padabhyanga)","Rub warm til (sesame) oil on the soles for 5 minutes before bed, then wear socks.","sleep feet calm stress"],
+["m","Dhyana (Meditation) Mudra","Left palm rests in the right palm, thumbs lightly touching, in your lap. Sit quietly 10 minutes with slow breathing.","stress anxiety calm mind worry"],
+["a","HT-7 (Shenmen)","On the wrist crease, pinky side, in the small hollow. Press gently 1 minute each wrist.","sleep anxiety racing heart"]],
+"Low energy":["tired fatigue weak weakness low energy stamina exhausted",
+["h","Soaked raisins (kishmish) and dates (khajoor)","Soak 5 raisins and 2 dates overnight and eat them in the morning for gentle iron and natural sugars.","tired weak iron energy"],
+["h","Ragi (finger millet) porridge","Cook ragi flour in water or milk with a little jaggery for a calcium- and iron-rich breakfast.","weak tired breakfast stamina"],
+["m","Prana Mudra","Tips of the little and ring fingers touch the thumb tip. Hold 10–15 minutes in the morning.","tired energy vitality"],
+["a","KI-1 (Yongquan)","Sole of the foot, in the hollow behind the ball of the foot. Press or rub 1 minute each foot.","tired dizzy grounding"]],
+"Skin concerns":["skin dry dull itchy rash pimples acne glow",
+["h","Aloe vera (ghritkumari) gel","Apply fresh gel to clean skin for 15 minutes, then rinse. Patch-test first.","dry irritation sunburn skin"],
+["h","Besan (gram flour)–haldi (turmeric)–curd (yogurt) ubtan","Mix 2 tsp besan, a pinch of turmeric and 1 tbsp curd. Apply 15 minutes, rinse. Patch-test first; turmeric can stain.","dull oily pimples glow"],
+["m","Varun (Water) Mudra","Little fingertip touches the thumb tip. Hold 15 minutes; traditionally used for dry skin and hydration.","dry skin hydration"],
+["a","SP-10 (Xuehai)","About three finger-widths above the inner kneecap, on the thigh bulge. Press 1 minute each leg for itchy skin.","itchy rash skin"]]
 };
 const T={h:["Home remedy",""],m:["Mudra","mudra"],a:["Acupressure","acu"]};
 const $=i=>document.getElementById(i);let sel="",cur=null;
@@ -143,4 +164,27 @@ if(navigator.share){$("sh").classList.remove("hide");$("sh").onclick=()=>navigat
 function txt(){if(!cur)return"";const f=a=>a.map((r,i)=>(i+1)+". ["+T[r[0]][0]+"] "+r[1]+"\n   "+r[2]).join("\n");
 return"Ghar Ka Vaidya – Remedies for "+cur.k+"\n"+(cur.nm?"For: "+cur.nm+(cur.ag?", "+cur.ag:"")+"\n":"")+"\nTOP 3\n"+f(cur.top)+"\n\nMORE OPTIONS\n"+f(cur.rest)+"\n\nTraditional supportive practices, not medical advice. See a doctor for severe or persistent symptoms."}
 (async()=>{try{const d=await claude.use("downloads");if(d){$("dl").classList.remove("hide");$("dl").onclick=async()=>{try{await d.save({filename:"my-remedies.txt",data:txt()})}catch(e){if(e&&e.code!=="declined")$("m2").textContent="Download unavailable here – use Copy instead."}}}}catch(e){}})();
+const S=[
+["Hair fall or thinning","hair fall thinning loss shedding","Iron (low ferritin), zinc, vitamin D, protein; also worth a thyroid check","Rajma, chana, til (sesame), pumpkin seeds, dates, dals, eggs; add amla or lemon to help iron absorption"],
+["Constant tiredness","tired fatigue weak weakness exhausted low energy","Iron, vitamin B12, vitamin D, magnesium; thyroid problems are also common","Palak (spinach), beetroot, jaggery, curd, paneer, eggs, almonds, morning sunlight"],
+["Tingling or numb hands and feet","tingling numb numbness pins needles","Vitamin B12 (also B6); diabetes can cause it too","Milk, curd, paneer, eggs, fish. Vegetarians and vegans are often low in B12 and may need a supplement"],
+["Muscle cramps or twitching","cramps cramp twitch spasm leg","Magnesium, calcium, potassium; dehydration too","Banana, coconut water, almonds, pumpkin seeds, ragi, milk, curd"],
+["Mouth ulcers or cracked mouth corners","mouth ulcer ulcers cracked corners lips sore tongue","Vitamin B2, B12, folate, iron","Milk, curd, eggs, dals, leafy greens, whole grains"],
+["Brittle or ridged nails","nails brittle ridges spoon pale","Iron, zinc, biotin, protein","Dals, chickpeas, sesame, nuts, eggs, leafy greens"],
+["Bone, back or heel pain","bone back heel pain fracture weak bones","Vitamin D, calcium","Regular morning sunlight, milk, curd, paneer, ragi, til, eggs, mushrooms"],
+["Frequent colds or slow healing","colds infection immunity wound healing sick often","Vitamin C, vitamin D, zinc","Amla, guava, lemon, oranges, pumpkin seeds, chickpeas, sunlight"],
+["Pale skin, breathless on stairs","pale breathless breathlessness dizzy dizziness anaemia anemia","Iron, B12, folate (common in anaemia, so see a doctor)","Beetroot, palak, dates, jaggery, rajma, dals, curd; pair iron foods with lemon"],
+["Poor night vision or dry eyes","night vision eyes dry eye","Vitamin A","Carrot, papaya, mango, palak, sweet potato, ghee, eggs"],
+["Bleeding gums","gums bleeding gum bleed","Vitamin C (sometimes vitamin K)","Amla, guava, lemon, capsicum, tomatoes"],
+["Poor sleep, anxiety, restless legs","sleep insomnia anxiety restless legs irritable","Magnesium, iron (restless legs), vitamin D","Almonds, pumpkin seeds, banana, whole grains, leafy greens, dals"],
+["Dry, flaky skin","dry flaky skin rough itchy","Essential fatty acids (omega-3), vitamin A, zinc; hydration","Alsi (flaxseed), walnuts, ghee, til, fish, carrot, plenty of water"],
+["Brain fog or poor memory","brain fog memory concentration forget focus","Vitamin B12, iron, omega-3, vitamin D","Curd, eggs, walnuts, alsi, dals, leafy greens"],
+["Feeling cold all the time","cold chilly feel cold hands feet","Iron, B12; an underactive thyroid is a common cause","Dates, jaggery, dals, eggs, curd; ask for a thyroid (TSH) test"],
+["Craving ice or chalk","craving ice chalk clay pica","Iron deficiency (a classic sign)","Rajma, chana, til, dates, jaggery, palak with lemon"]];
+function showS(){const q=$("sq").value.toLowerCase().split(/[\s,]+/).filter(w=>w.length>1),L=$("sl");L.innerHTML="";
+const m=S.filter(r=>!q.length||q.some(w=>(r[0]+" "+r[1]).toLowerCase().includes(w)));
+if(!m.length){const d=document.createElement("div");d.className="note";d.textContent="No match yet. Try another word, like tired, hair, cramps or tingling.";L.appendChild(d);return}
+m.forEach(r=>{const d=document.createElement("div");d.className="r acu";d.innerHTML='<h3></h3><p class="f"><b>Often linked to:</b> <span></span></p><p class="f"><b>Food sources:</b> <span></span></p>';
+d.children[0].textContent=r[0];d.querySelectorAll("span")[0].textContent=r[2];d.querySelectorAll("span")[1].textContent=r[3];L.appendChild(d)})}
+$("sq").oninput=showS;showS();
 </script></body></html>
